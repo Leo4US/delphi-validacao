@@ -71,9 +71,23 @@ def main() -> None:
         tematica = str(row["tematica"]).strip()
         secao = str(row["secao"]).strip()
 
-        st.markdown(f"**{codigo}** (Seção {secao} | Temática: {tematica})")
-        st.write(texto)
+        # Separador visual entre itens
+        st.markdown("---")
 
+        # Cabeçalho do item
+        st.markdown(f"### Item {codigo}")
+        st.caption(f"Seção {secao} | Temática: {tematica}")
+
+        # BLOCO 1 – Instrumento da pesquisa
+        st.markdown("**1) INSTRUMENTO DA PESQUISA (enunciado original)**")
+        st.info(texto)
+
+        # BLOCO 2 – Avaliação Delphi
+        st.markdown("**2) AVALIAÇÃO DELPHI (sua decisão metodológica)**")
+        st.caption(
+            "Indique sua decisão quanto à permanência do item no questionário. "
+            "Comentário é obrigatório quando o voto for diferente de Manter."
+        )
         col1, col2 = st.columns([1, 2])
         with col1:
             voto = st.radio(
