@@ -50,7 +50,6 @@ def salvar_respostas(registro: dict, respostas: list[dict]) -> str:
     for k, v in registro.items():
         df[k] = v
 
-    # ordena colunas (mais legível)
     col_order = [
         "bloco", "secao", "codigo", "tematica",
         "pergunta", "respostas",
@@ -90,7 +89,40 @@ def main():
         nome = st.text_input("Nome", "")
         email = st.text_input("E-mail", "")
         cpf = st.text_input("CPF (opcional, se o grupo decidir coletar)", "")
-        consent = st.checkbox("Li e concordo com o uso dos dados exclusivamente para reforço metodológico interno (fase piloto).", value=False)
+        consent = st.checkbox(
+            "Li e concordo com o uso dos dados exclusivamente para reforço metodológico interno (fase piloto).",
+            value=False
+        )
+
+    # =========================
+    # NOVO: Critérios Delphi (como no print)
+    # =========================
+    st.info("Instruções claras sobre os critérios de avaliação e prazos de resposta.", icon="ℹ️")
+    with st.expander("Critérios de avaliação (Delphi) - clique para abrir/fechar", expanded=False):
+        st.markdown("""
+Cada item será avaliado segundo os seguintes critérios:
+
+**Grau de relevância**  
+Avaliado por escala Likert de 5 pontos (1 = nada relevante; 5 = muito relevante).
+
+**Aplicabilidade nacional**  
+Resposta dicotômica: Sim / Não, considerando a realidade nacional da pesca artesanal.
+
+**Aceitação do item**  
+Resposta dicotômica: Sim / Não.
+
+**Campo aberto para comentários e sugestões**  
+Espaço para sugestões de ajustes, exclusão ou inclusão de itens.
+
+**Critérios de consenso**  
+Será adotado como critério de consenso:  
+80% ou mais de concordância dos especialistas para:  
+- Relevância (pontuação 4 ou 5);  
+- Aplicabilidade (Sim);  
+- Aceitação do item (Sim).
+
+Itens que atingirem o consenso na primeira rodada serão considerados validados e seguirão para a rodada seguinte.
+""")
 
     st.divider()
     st.subheader(f"Itens do {bloco_id}")
@@ -106,37 +138,41 @@ def main():
         pergunta = row["pergunta"]
         resp_txt = row.get("respostas", "")
 
-        # Cabeçalho do item
         st.markdown(f"### {codigo}  |  Seção: {secao}  |  Temática: {tematica}")
 
-        # Opção 2: dois blocos bem destacados
-        st.markdown("**Instrumento (pergunta e respostas):**")
-        st.markdown(f"> **Pergunta:** {pergunta}")
+        # =========================
+        # NOVO: 2 blocos em “cards”
+        # =========================
+        with st.container(border=True):
+            st.markdown("**1) Instrumento de pesquisa (pergunta e respostas)**")
+            st.markdown(f"**Pergunta:** {pergunta}")
+            if resp_txt.strip():
+                st.markdown("**Respostas:**")
+                st.write(resp_txt)
 
-        if resp_txt.strip():
-            st.markdown(f"> **Respostas:** {resp_txt}")
+        with st.container(border=True):
+            st.markdown("**2) Avaliação Delphi (decisão e comentário)**")
 
-        st.markdown("---")
-        st.markdown("**Delphi (decisão e comentário):**")
+            col1, col2 = st.columns([1, 3])
+            with col1:
+                voto = st.radio(
+                    f"Voto (item {codigo})",
+                    VOTOS,
+                    key=f"voto_{codigo}",
+                    horizontal=False
+                )
+            with col2:
+                comentario = st.text_area(
+                    f"Comentário (item {codigo})",
+                    value="",
+                    key=f"coment_{codigo}",
+                    height=90
+                )
 
-        col1, col2 = st.columns([1, 3])
-        with col1:
-            voto = st.radio(
-                f"Voto (item {codigo})",
-                VOTOS,
-                key=f"voto_{codigo}",
-                horizontal=False
-            )
-        with col2:
-            comentario = st.text_area(
-                f"Comentário (item {codigo})",
-                value="",
-                key=f"coment_{codigo}",
-                height=90
-            )
-
-        if voto != "Manter" and not comentario.strip():
-            problemas.append(codigo)
+            # regra: se voto != Manter, comentário obrigatório
+            if voto != "Manter" and not comentario.strip():
+                st.warning("Comentário obrigatório quando o voto for diferente de Manter.")
+                problemas.append(codigo)
 
         respostas.append({
             "secao": secao,
@@ -159,7 +195,9 @@ def main():
             st.error("Preencha Nome e E-mail para enviar.")
             st.stop()
         if problemas:
-            st.error(f"Há itens com voto diferente de Manter sem comentário: {', '.join(problemas)}")
+            # remove duplicados mantendo ordem
+            problemas_unicos = list(dict.fromkeys(problemas))
+            st.error(f"Há itens com voto diferente de Manter sem comentário: {', '.join(problemas_unicos)}")
             st.stop()
 
         registro = {
