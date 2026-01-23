@@ -1,0 +1,10 @@
+codigo,secao,tematica,pergunta,respostas
+1.1,SEÇÃO 1 - IDENTIFICAÇÃO DO RESPONDENTE,Sociodemográfico,Nome ou apelido: __________________________________________,
+1.2,SEÇÃO 1 - IDENTIFICAÇÃO DO RESPONDENTE,Sociodemográfico,Número do documento de identificação,
+1.2.1,SEÇÃO 1 - IDENTIFICAÇÃO DO RESPONDENTE,Sociodemográfico,Tipo,
+1.3,SEÇÃO 1 - IDENTIFICAÇÃO DO RESPONDENTE,Sociodemográfico,Qual é sua data de nascimento: dd/mm/aaaa,
+1.4,SEÇÃO 1 - IDENTIFICAÇÃO DO RESPONDENTE,Sociodemográfico,Recebe seguro defeso?,Sim; Não
+1.5,SEÇÃO 1 - IDENTIFICAÇÃO DO RESPONDENTE,Sociodemográfico,Gênero,Masculino; Feminino; Não listado; Prefiro não responder
+1.6,SEÇÃO 1 - IDENTIFICAÇÃO DO RESPONDENTE,Sociodemográfico,Qual município onde reside? (município e Estado),
+1.7,SEÇÃO 1 - IDENTIFICAÇÃO DO RESPONDENTE,Sociodemográfico,Há quantos anos reside nesta localidade?,menos de 1 ano; entre 1 e 4 anos; entre 5 e 10 anos; mais de 10 anos; sempre vivi
+1.8,SEÇÃO 1 - IDENTIFICAÇÃO DO RESPONDENTE,Sociodemográfico,Cor da pele/raça,branca; preta; parda; indígena; amarela
