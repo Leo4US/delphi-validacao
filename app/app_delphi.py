@@ -107,7 +107,7 @@ def main():
 
             grau_relevancia = st.radio(
                 "Grau de relevância",
-                options=[3, 4, 5],
+                options=[1, 2, 3, 4, 5],
                 horizontal=True,
                 key=f"grau_{item_uid}",
             )
