@@ -66,12 +66,24 @@ PRIVATE_REPO = "Leo4US/delphi-validacao-respostas"
 PRIVATE_BRANCH = "main"
 
 def backup_para_repo_privado(csv_path: str, bloco_id: str) -> str:
-    token = os.getenv("GITHUB_TOKEN", "").strip()
+    token = (
+        st.secrets.get("GITHUB_TOKEN", "").strip()
+        or os.getenv("GITHUB_TOKEN", "").strip()
+    )
     if not token:
-        raise RuntimeError("GITHUB_TOKEN não encontrado no ambiente.")
+        raise RuntimeError("GITHUB_TOKEN não encontrado (secrets/env).")
 
-    git_user_email = os.getenv("GIT_USER_EMAIL", "").strip() or "noreply@example.com"
-    git_user_name = os.getenv("GIT_USER_NAME", "").strip() or "delphi-bot"
+    git_user_email = (
+        st.secrets.get("GIT_USER_EMAIL", "").strip()
+        or os.getenv("GIT_USER_EMAIL", "").strip()
+        or "noreply@example.com"
+    )
+
+    git_user_name = (
+        st.secrets.get("GIT_USER_NAME", "").strip()
+        or os.getenv("GIT_USER_NAME", "").strip()
+        or "delphi-bot"
+    )
 
     dest_rel = f"respostas/{bloco_id}/{os.path.basename(csv_path)}"
 
