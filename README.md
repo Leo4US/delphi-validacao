@@ -57,3 +57,5 @@ Contém os aplicativos de validação Delphi, responsáveis por apresentar os it
 outputs/
 Armazena temporariamente as respostas geradas durante a validação.
 Esses arquivos não devem ser versionados, pois representam dados de trabalho interno.
+
+Nota! Submissões são salvas localmente em outputs/ e imediatamente ‘espelhadas’ no repo privado delphi-validacao-respostas (pasta respostas/blocoX/) via git clone/add/commit/push usando GITHUB_TOKEN.
