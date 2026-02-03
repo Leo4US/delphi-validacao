@@ -11,6 +11,21 @@ from pathlib import Path
 BASE_DIR = "base"
 OUTPUT_DIR = "outputs"
 
+INSTRUCOES_DELPHI = """
+### Instruções – Rodada Delphi
+
+1) Leia o item do questionário (pergunta e respostas).
+2) Avalie o item conforme os critérios:
+- Grau de relevância: 1 (nada relevante) a 5 (muito relevante)
+- Aplicabilidade nacional: Sim/Não
+- Aceitação do item: Sim/Não
+3) Comentários são obrigatórios quando:
+- Aceitação = Não, ou
+- Aplicabilidade = Não
+
+Ao prosseguir, você confirma que leu e compreendeu estas instruções.
+"""
+
 def listar_blocos():
     if not os.path.isdir(BASE_DIR):
         return []
@@ -54,6 +69,7 @@ def salvar_respostas(registro: dict, respostas: list[dict]) -> str:
         "grau_relevancia", "aplicabilidade_nacional", "aceitacao_item",
         "comentarios_sugestoes",
         "nome", "email", "cpf",
+        "concordancia_instr_delphi",
         "consentimento", "timestamp",
     ]
     cols = [c for c in col_order if c in df.columns] + [c for c in df.columns if c not in col_order]
@@ -124,6 +140,12 @@ def main():
     st.title("Validação Delphi (fase piloto)")
     st.write("Protótipo interno para teste de layout, fluxo de avaliação e armazenamento das respostas.")
 
+        # Etapa 0) Instruções Delphi (obrigatório)
+    with st.expander("Instruções do Método Delphi (leitura obrigatória)", expanded=True):
+        st.markdown(INSTRUCOES_DELPHI)
+
+    li_instrucoes = st.checkbox("Li e compreendi as instruções do Método Delphi.")
+
     blocos = listar_blocos()
     if not blocos:
         st.error("Nenhum arquivo encontrado em base/ no padrão blocoX_itens.csv.")
@@ -140,6 +162,18 @@ def main():
         email = st.text_input("E-mail")
         cpf = st.text_input("CPF (opcional)")
         consent = st.checkbox("Li e concordo com o uso dos dados exclusivamente para reforço metodológico interno.")
+
+    with st.expander("Instruções (Método Delphi)", expanded=True):
+        st.markdown(INSTRUCOES_DELPHI)
+        concorda_instr = st.checkbox(
+            "Li e compreendi as instruções acima e concordo em participar desta rodada.",
+            value=False,
+            key="concorda_instr"
+        )
+
+    if not concorda_instr:
+        st.warning("Para acessar o questionário, é necessário ler e concordar com as instruções.")
+        st.stop()
 
     st.info("Instruções claras sobre os critérios de avaliação e prazos de resposta.", icon="ℹ️")
 
@@ -212,13 +246,20 @@ def main():
     st.divider()
     st.subheader("Enviar respostas")
 
-    if st.button("Salvar submissão"):
+        if st.button("Salvar submissão"):
+
+        if not li_instrucoes:
+            st.error("Você precisa confirmar a leitura das instruções do Método Delphi para enviar.")
+            st.stop()
+
         if not consent or not nome or not email:
             st.error("Identificação e consentimento são obrigatórios.")
             st.stop()
 
         if problemas:
-            st.error(f"Itens sem comentário obrigatório: {', '.join(sorted(set(problemas)))}")
+            st.error(
+                f"Itens sem comentário obrigatório: {', '.join(sorted(set(problemas)))}"
+            )
             st.stop()
 
         registro = {
@@ -236,8 +277,7 @@ def main():
             _dest = backup_para_repo_privado(out_path, bloco_id)
             st.success("Submissão salva e backup registrado.")
         except Exception as e:
-            st.warning("Submissão salva localmente, mas o backup no repo privado falhou.")
+            st.warning(
+                "Submissão salva localmente, mas o backup no repositório privado falhou."
+            )
             st.text(str(e))
-
-if __name__ == "__main__":
-    main()
