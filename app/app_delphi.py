@@ -138,24 +138,31 @@ def main():
     st.set_page_config(page_title="Validação Delphi", layout="wide")
 
     # =========================
-    # Estado de sessão (para esconder instruções após leitura)
+    # Estado de sessão
+    # - delphi_ok: valida que leu/concordou (uma vez por sessão)
+    # - prefills_ok: trava/preenche identificação (para não ficar editando sem querer)
     # =========================
-    if "instr_ok" not in st.session_state:
-        st.session_state["instr_ok"] = False
+    if "delphi_ok" not in st.session_state:
+        st.session_state["delphi_ok"] = False
 
     st.title("Validação Questionário [Rodada Delphi]")
     st.write("Protótipo para teste de layout, fluxo de avaliação e armazenamento das respostas.")
 
     # =========================
-    # Etapa 0) Instruções Delphi (somem após marcar)
+    # Etapa 0) Instruções + Concordância (UMA SÓ)
+    # - Aparece até marcar
+    # - Depois some e libera o resto
     # =========================
-    if not st.session_state["instr_ok"]:
-        with st.expander("Instruções do Método Delphi (leitura obrigatória)", expanded=True):
+    if not st.session_state["delphi_ok"]:
+        with st.expander("Instruções e concordância (leitura obrigatória)", expanded=True):
             st.markdown(INSTRUCOES_DELPHI)
             st.checkbox(
-                "Li e compreendi as instruções do Método Delphi.",
-                key="instr_ok"
+                "Li, compreendi e concordo com as instruções do Método Delphi.",
+                key="delphi_ok"
             )
+
+        st.warning("Para acessar o questionário, é necessário ler e concordar com as instruções acima.")
+        st.stop()
 
     # =========================
     # Etapa 1) Seleção de bloco
@@ -179,6 +186,8 @@ def main():
 
     # =========================
     # Etapa 2) Identificação + consentimento
+    # - Campos persistem na sessão (st.session_state)
+    # - Se trocar de bloco, mantém os dados (auto-preenchido)
     # =========================
     with st.expander("Identificação", expanded=True):
         nome = st.text_input("Nome", key="nome")
@@ -189,25 +198,10 @@ def main():
             key="consent"
         )
 
-    # =========================
-    # Etapa 3) Concordância (Delphi)
-    # =========================
-    with st.expander("Concordância (Método Delphi)", expanded=True):
-        st.markdown(INSTRUCOES_DELPHI)
-        concorda_instr = st.checkbox(
-            "Li e compreendi as instruções acima e concordo em participar desta rodada.",
-            value=False,
-            key="concorda_instr"
-        )
-
-    if not concorda_instr:
-        st.warning("Para acessar o questionário, é necessário ler e concordar com as instruções.")
-        st.stop()
-
-    st.info("Instruções claras sobre os critérios de avaliação e prazos de resposta.", icon="ℹ️")
+    st.info("Instruções validadas. Você pode preencher este bloco e, se necessário, trocar para outro bloco sem reler as instruções.", icon="ℹ️")
 
     # =========================
-    # Etapa 4) Loop de itens
+    # Etapa 3) Loop de itens
     # =========================
     respostas = []
     problemas = []
@@ -276,14 +270,14 @@ def main():
         })
 
     # =========================
-    # Etapa 5) Envio
+    # Etapa 4) Envio
     # =========================
     st.divider()
     st.subheader("Enviar respostas")
 
     if st.button("Salvar submissão"):
-        if not st.session_state.get("instr_ok", False):
-            st.error("Você precisa confirmar a leitura das instruções do Método Delphi para enviar.")
+        if not st.session_state.get("delphi_ok", False):
+            st.error("Você precisa concordar com as instruções do Método Delphi para enviar.")
             st.stop()
 
         if not consent or not nome.strip() or not email.strip():
