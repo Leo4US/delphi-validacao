@@ -14,29 +14,41 @@ OUTPUT_DIR = "outputs"
 INSTRUCOES_DELPHI = """
 ### Instruções para Rodada Delphi
 
-1) Leia o item do questionário (pergunta e respostas).
+1) Leia atentamente cada item do questionário (pergunta e respectivas alternativas de resposta).
+
 2) Avalie o item conforme os critérios:
-- Grau de relevância: 1 (nada relevante) a 5 (muito relevante)
-- Aplicabilidade nacional: Sim/Não
-- Aceitação do item: Sim/Não
-3) Comentários são obrigatórios quando:
-- Aceitação = Não ou Sim
-- Aplicabilidade = Não ou Sim
 
-O instrumento de coleta está organizado em 7 blocos temáticos:
+- **Grau de relevância:** escala de 1 (nada relevante) a 5 (muito relevante)
+- **Aplicabilidade nacional:** Sim / Não
+- **Aceitação do item:** Sim / Não
 
-Bloco 1 – Identificação do respondente
-Bloco 2 – Condições de trabalho
-Bloco 3 – Organização do trabalho
-Bloco 4 – Saúde e segurança no trabalho
-Bloco 5 – Ambiente e território
-Bloco 6 – Políticas públicas e proteção social
-Bloco 7 – Avaliação geral do instrumento
+3) **Comentários são obrigatórios quando:**
 
-Solicitamos gentilmente que a avaliação contemple TODOS os blocos para permitir análise metodológica completa do instrumento.
+- Aceitação do item = **Não**
+- Aplicabilidade nacional = **Não**
+- Grau de relevância **≤ 3**
 
-Ao prosseguir, você confirma que leu e compreendeu estas instruções.
-"""
+Os comentários devem indicar sugestões de ajuste, exclusão ou reformulação do item.
+
+---
+
+### Estrutura do instrumento
+
+O instrumento de coleta está organizado em **7 blocos temáticos**:
+
+1. **Bloco 1 - Identificação do respondente**  
+2. **Bloco 2 - Condições de trabalho**  
+3. **Bloco 3 - Organização do trabalho**  
+4. **Bloco 4 - Saúde e segurança no trabalho**  
+5. **Bloco 5 - Ambiente e território**  
+6. **Bloco 6 - Políticas públicas e proteção social**  
+7. **Bloco 7 - Avaliação geral do instrumento**
+
+Solicitamos gentilmente que a avaliação contemple **todos os blocos**, permitindo uma análise metodológica completa do instrumento.
+
+---
+
+Ao prosseguir, você confirma que **leu e compreendeu estas instruções**.
 
 def listar_blocos():
     if not os.path.isdir(BASE_DIR):
