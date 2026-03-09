@@ -12,7 +12,7 @@ BASE_DIR = "base"
 OUTPUT_DIR = "outputs"
 
 INSTRUCOES_DELPHI = """
-### Instruções – Rodada Delphi
+### Instruções para Rodada Delphi
 
 1) Leia o item do questionário (pergunta e respostas).
 2) Avalie o item conforme os critérios:
@@ -20,8 +20,20 @@ INSTRUCOES_DELPHI = """
 - Aplicabilidade nacional: Sim/Não
 - Aceitação do item: Sim/Não
 3) Comentários são obrigatórios quando:
-- Aceitação = Não, ou
-- Aplicabilidade = Não
+- Aceitação = Não ou Sim
+- Aplicabilidade = Não ou Sim
+
+O instrumento de coleta está organizado em 7 blocos temáticos:
+
+Bloco 1 – Identificação do respondente
+Bloco 2 – Condições de trabalho
+Bloco 3 – Organização do trabalho
+Bloco 4 – Saúde e segurança no trabalho
+Bloco 5 – Ambiente e território
+Bloco 6 – Políticas públicas e proteção social
+Bloco 7 – Avaliação geral do instrumento
+
+Solicitamos gentilmente que a avaliação contemple TODOS os blocos para permitir análise metodológica completa do instrumento.
 
 Ao prosseguir, você confirma que leu e compreendeu estas instruções.
 """
