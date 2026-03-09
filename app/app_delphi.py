@@ -166,10 +166,6 @@ def main():
     IMG_PATH = Path(__file__).resolve().parents[1] / "assets" / "capa_projeto.jpg"
     st.image(str(IMG_PATH), use_container_width=True)
 
-    # TÍTULOS DO SISTEMA
-    st.title("VALIDAÇÃO DO QUESTIONÁRIO")
-    st.write("Projeto de Pesquisa - Trabalho Saudável e Seguro na Pesca Artesanal")
-
     # =========================
     # Estado de sessão
     # delphi_ok é o "flag definitivo" (não depende do widget existir)
