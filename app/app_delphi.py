@@ -162,6 +162,15 @@ def backup_para_repo_privado(csv_path: str, bloco_id: str) -> str:
 def main():
     st.set_page_config(page_title="Validação Delphi", layout="wide")
 
+    # CAPA DO PROJETO
+    IMG_PATH = Path(__file__).resolve().parents[1] / "assets" / "capa_projeto.jpg"
+    st.image(str(IMG_PATH), use_container_width=True)
+
+    # TÍTULOS DO SISTEMA
+    st.title("VALIDAÇÃO DO QUESTIONÁRIO")
+    st.title("1º Rodada Delphi EQN + Especialistas Externos")
+    st.write("Projeto de Pesquisa - Trabalho Saudável e Seguro na Pesca Artesanal")
+
     # =========================
     # Estado de sessão
     # delphi_ok é o "flag definitivo" (não depende do widget existir)
