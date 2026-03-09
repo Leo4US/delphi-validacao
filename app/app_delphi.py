@@ -49,6 +49,7 @@ Solicitamos gentilmente que a avaliação contemple **todos os blocos**, permiti
 ---
 
 Ao prosseguir, você confirma que **leu e compreendeu estas instruções**.
+"""
 
 def listar_blocos():
     if not os.path.isdir(BASE_DIR):
