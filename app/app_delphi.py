@@ -168,7 +168,6 @@ def main():
 
     # TÍTULOS DO SISTEMA
     st.title("VALIDAÇÃO DO QUESTIONÁRIO")
-    st.title("1º Rodada Delphi EQN + Especialistas Externos")
     st.write("Projeto de Pesquisa - Trabalho Saudável e Seguro na Pesca Artesanal")
 
     # =========================
