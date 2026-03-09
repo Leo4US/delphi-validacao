@@ -177,7 +177,6 @@ def main():
     if "delphi_ok" not in st.session_state:
         st.session_state["delphi_ok"] = False
 
-    st.title("VALIDAÇÃO DO QUESTIONÁRIO")
     st.title("1º Rodada Delphi EQN + Especialistas Externos")
     st.write("Projeto de Pesquisa - Trabalho Saudável e Seguro na Pesca Artesanal")
     st.write("Protótipo para fluxo de validação e armazenamento das respostas dos especialistas.")
